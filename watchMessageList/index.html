@@ -1,0 +1,65 @@
+<html>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<div id="Itemlist">
+
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+        <tr v-for="Item in Items">
+            <td>{{Item.name}}</td>
+            <td>{{Item.age}}</td>
+        </tr>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+var vm = new Vue({
+    el: '#Itemlist',
+    data: {
+        Items: []
+    
+   
+    },
+    methods: {
+        
+        updateSource: function () {
+    
+            var self = this;
+ 
+            axios.get('http://url/test.php')
+            .then(function(response){
+                vm.Items = response.data;
+                console.log(response.data); // ex.: { user: 'Your User'}
+                console.log(response.status); // ex.: 200
+
+            });  
+
+        }
+
+    },
+    created: function() {
+         console.log('created'); 
+           this.updateSource();
+    },
+    watch: {
+        
+        Items: function() {
+            this.updateSource();
+            //vm.count++;
+            console.log("Watching...");
+        }
+    }
+
+
+});
+
+</script>
+
+</html>
+
+

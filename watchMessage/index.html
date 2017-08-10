@@ -1,0 +1,53 @@
+<html>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<div id="Itemlist">
+   msg: {{Message.text}}
+<div>
+
+<script type="text/javascript">
+var vm = new Vue({
+    el: '#Itemlist',
+    data: {
+        Message: ''
+      
+    },
+    methods: {
+        
+        updateSource: function () {
+    
+            var self = this;
+            axios.get('http://url/message.php')
+            .then(function(response){
+                vm.Message = response.data;
+                console.log(response.data); // ex.: { user: 'Your User'}
+                console.log(response.status); // ex.: 200
+               
+             });  
+              //this.msg = "ok updated";
+        }
+
+    },
+    created: function() {
+         console.log('created'); 
+           this.updateSource();
+    },
+    watch: {
+        
+        Message: function() {
+            this.updateSource();
+            console.log("Watching...");
+        }
+    }
+
+
+});
+
+</script>
+<body>
+
+
+
+
